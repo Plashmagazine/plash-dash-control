@@ -1,0 +1,10 @@
+# Bloquear acesso direto aos arquivos de instalação após conclusão
+<Files "*.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<Files "*.sql">
+    Order allow,deny
+    Deny from all
+</Files>
