@@ -1,38 +1,6 @@
-# Plataforma Editorial Plash - Configurações Apache
-
-# Bloquear acesso a arquivos sensíveis
-<Files ".env.php">
-    Order allow,deny
-    Deny from all
-</Files>
-
-<Files "*.log">
-    Order allow,deny
-    Deny from all
-</Files>
-
-# Bloquear acesso a pastas do sistema
-RedirectMatch 403 ^/includes/.*$
-RedirectMatch 403 ^/install/.*$ 
-
-# URLs amigáveis
 RewriteEngine On
 
-# Redirecionar para HTTPS (opcional)
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-# Remover extensão .php das URLs
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([^\.]+)$ $1.php [NC,L]
-
-# Página de erro personalizada
-ErrorDocument 404 /error/404.php
-ErrorDocument 403 /error/403.php
-ErrorDocument 500 /error/500.php
-
-# Configurações de segurança
+# Configurações de segurança básicas
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options nosniff
     Header always set X-Frame-Options DENY
@@ -63,3 +31,23 @@ ErrorDocument 500 /error/500.php
     ExpiresByType image/jpeg "access plus 1 month"
     ExpiresByType image/gif "access plus 1 month"
 </IfModule>
+
+# Bloquear acesso apenas a arquivos sensíveis específicos
+<Files ".env.php">
+    Require all denied
+</Files>
+
+<Files "*.log">
+    Require all denied
+</Files>
+
+# URLs amigáveis - remover extensão .php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Página de erro personalizada
+ErrorDocument 404 /error/404.php
+ErrorDocument 403 /error/403.php
+ErrorDocument 500 /error/500.php

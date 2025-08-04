@@ -1,20 +1,17 @@
 # Proteger pasta de uploads
 Options -Indexes
 
-# Permitir apenas tipos de arquivo específicos
-<FilesMatch "\.(jpg|jpeg|png|gif|pdf|zip|mp4|mov|avi)$">
-    Order allow,deny
-    Allow from all
+# Permitir apenas tipos de arquivo específicos para visualização
+<FilesMatch "\.(jpg|jpeg|png|gif|pdf|zip|mp4|mov|avi|webp|svg)$">
+    Require all granted
 </FilesMatch>
 
 # Bloquear execução de scripts
 <FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
-    Order allow,deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 # Headers de segurança para downloads
 <IfModule mod_headers.c>
-    Header set Content-Disposition "attachment"
     Header set X-Content-Type-Options "nosniff"
 </IfModule>

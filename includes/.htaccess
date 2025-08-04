@@ -1,3 +1,2 @@
 # Bloquear acesso direto aos arquivos de include
-Order allow,deny
-Deny from all
+Require all denied
